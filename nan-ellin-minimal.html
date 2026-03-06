@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nan Ellin</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7F6F3;--fg:#111;--muted:#999;--line:#E0DED9;--accent:#2A52A0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--bg);padding:1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+.logo{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:400;letter-spacing:0.04em;text-decoration:none;color:var(--fg)}
+.nav-r{display:flex;gap:3rem;align-items:center}
+.nav-r a{font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s}
+.nav-r a:hover{color:var(--fg)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:0 4rem;margin-top:0;position:relative}
+.hero-inner{max-width:860px}
+.hero-overline{font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-bottom:2.5rem;display:flex;align-items:center;gap:1rem}
+.hero-overline::before{content:'';width:24px;height:1px;background:var(--muted)}
+h1{font-family:'Libre Baskerville',serif;font-size:clamp(3.5rem,7vw,7rem);font-weight:400;line-height:1;letter-spacing:-0.02em;margin-bottom:2.5rem}
+h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:1.1rem;line-height:1.8;color:#555;max-width:560px;margin-bottom:3.5rem;font-weight:300}
+.hero-actions{display:flex;gap:1.5rem;align-items:center}
+.btn-primary{padding:0.85rem 2.2rem;background:var(--fg);color:var(--bg);font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;border-radius:1px;transition:all 0.25s}
+.btn-primary:hover{background:var(--accent);transform:translateY(-1px)}
+.btn-secondary{font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:0.5rem;transition:color 0.2s}
+.btn-secondary:hover{color:var(--fg)}
+.hero-scroll{position:absolute;bottom:3rem;left:4rem;display:flex;align-items:center;gap:0.8rem;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted)}
+.scroll-line{width:1px;height:40px;background:var(--line)}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--line);margin:0 4rem}
+
+/* SECTION */
+.section{padding:6rem 4rem}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4rem;padding-bottom:1.5rem;border-bottom:1px solid var(--line)}
+.section-num{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted)}
+.section-title{font-family:'Libre Baskerville',serif;font-size:1.8rem;font-weight:400;font-style:italic}
+.section-count{font-size:0.65rem;letter-spacing:0.12em;color:var(--muted)}
+
+/* BOOKS */
+.books-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2rem}
+.book{cursor:default}
+.book-spine{height:160px;margin-bottom:1.2rem;display:flex;align-items:flex-end;padding:1rem;transition:transform 0.3s ease}
+.book:hover .book-spine{transform:translateY(-6px)}
+.bs-1{background:#1C2B3A} .bs-2{background:#3A1C1C} .bs-3{background:#1C3A2B}
+.bs-4{background:#2B1C3A} .bs-5{background:#1C2F3A}
+.book-spine span{font-family:'Libre Baskerville',serif;font-size:0.78rem;font-style:italic;color:rgba(255,255,255,0.65);line-height:1.4}
+.book-info{}
+.book-name{font-size:0.85rem;font-weight:500;margin-bottom:0.2rem;line-height:1.3}
+.book-press{font-size:0.7rem;color:var(--muted);letter-spacing:0.06em}
+
+/* ARTICLES */
+.filter-row{display:flex;gap:0;margin-bottom:3rem;border:1px solid var(--line);width:fit-content}
+.fbtn{padding:0.5rem 1.2rem;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);background:transparent;border:none;border-right:1px solid var(--line);cursor:pointer;font-family:'Geist',sans-serif;transition:all 0.2s}
+.fbtn:last-child{border-right:none}
+.fbtn:hover,.fbtn.on{background:var(--fg);color:var(--bg)}
+.art-table{width:100%;border-collapse:collapse}
+.art-table tr{border-bottom:1px solid var(--line);cursor:pointer;transition:background 0.15s}
+.art-table tr:hover{background:rgba(0,0,0,0.02)}
+.art-table td{padding:1.2rem 0.5rem;vertical-align:top}
+.td-yr{font-size:0.75rem;color:var(--muted);width:70px;font-variant-numeric:tabular-nums}
+.td-title{font-family:'Libre Baskerville',serif;font-size:0.95rem;line-height:1.4}
+.td-journal{font-size:0.7rem;color:var(--muted);margin-top:0.2rem}
+.td-cat{width:120px;text-align:right}
+.cat-pill{font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);border:1px solid currentColor;padding:0.2rem 0.5rem;border-radius:1px}
+
+/* ABOUT */
+.about-layout{display:grid;grid-template-columns:1fr 1px 1fr;gap:4rem;align-items:start}
+.about-divider{background:var(--line);height:100%}
+.about-bio{font-size:0.95rem;line-height:1.9;color:#444;font-weight:300}
+.about-bio p+p{margin-top:1.2rem}
+.positions{display:flex;flex-direction:column}
+.pos{padding:1.2rem 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:90px 1fr;gap:1rem}
+.pos-yr{font-size:0.7rem;color:var(--muted);padding-top:0.15rem;font-variant-numeric:tabular-nums}
+.pos-role{font-size:0.85rem;font-weight:500;margin-bottom:0.15rem}
+.pos-org{font-size:0.78rem;color:var(--muted)}
+
+/* CONTACT */
+.contact-band{background:var(--fg);color:var(--bg);padding:5rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.contact-headline{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:400;font-style:italic;line-height:1.2}
+.contact-headline em{color:rgba(255,255,255,0.4);font-style:normal}
+.contact-details{display:flex;flex-direction:column;gap:1.5rem}
+.contact-row{display:flex;align-items:center;gap:1.2rem}
+.contact-icon{width:36px;height:36px;border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:rgba(255,255,255,0.6);flex-shrink:0}
+.contact-text{font-size:0.82rem;color:rgba(255,255,255,0.75)}
+.contact-text a{color:rgba(255,255,255,0.85);text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:0.1rem}
+
+/* FOOTER */
+footer{padding:1.5rem 4rem;display:flex;justify-content:space-between;border-top:1px solid var(--line)}
+footer span{font-size:0.65rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase}
+
+/* DEMO */
+.demo{position:fixed;bottom:1rem;right:1rem;z-index:999;background:var(--accent);color:white;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.4rem 0.8rem}
+
+/* ANIMATE */
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero-inner>*{animation:up 0.7s ease both}
+.hero-inner>*:nth-child(1){animation-delay:.1s}
+.hero-inner>*:nth-child(2){animation-delay:.2s}
+.hero-inner>*:nth-child(3){animation-delay:.35s}
+.hero-inner>*:nth-child(4){animation-delay:.5s}
+
+@media(max-width:900px){
+  nav,.hero,.section,.contact-band,footer{padding-left:1.5rem;padding-right:1.5rem}
+  .divider{margin:0 1.5rem}
+  .books-grid{grid-template-columns:repeat(2,1fr)}
+  .about-layout{grid-template-columns:1fr}
+  .about-divider{display:none}
+  .contact-band{grid-template-columns:1fr}
+  .td-cat{display:none}
+  .nav-r{gap:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">Nan Ellin</a>
+  <div class="nav-r">
+    <a href="#books">Books</a>
+    <a href="#articles">Articles</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-overline">Urban Design · CU Denver · Dean Emeritus</div>
+    <h1>Shaping<br><em>Cities</em><br>Through<br>Design</h1>
+    <p class="hero-sub">Professor of Urban Design. Author. Advocate for cities that foster human flourishing, ecological balance, and social equity.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#books">View Publications</a>
+      <a class="btn-secondary" href="#about">Biography →</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section" id="books">
+  <div class="section-head">
+    <div>
+      <div class="section-num">01 · Books</div>
+      <div class="section-title">Authored Works</div>
+    </div>
+    <div class="section-count">5 publications</div>
+  </div>
+  <div class="books-grid">
+    <div class="book">
+      <div class="book-spine bs-1"><span>Integral Urbanism</span></div>
+      <div class="book-info">
+        <div class="book-name">Integral Urbanism</div>
+        <div class="book-press">Routledge</div>
+      </div>
+    </div>
+    <div class="book">
+      <div class="book-spine bs-2"><span>Architecture of Fear</span></div>
+      <div class="book-info">
+        <div class="book-name">Architecture of Fear</div>
+        <div class="book-press">Princeton Architectural Press</div>
+      </div>
+    </div>
+    <div class="book">
+      <div class="book-spine bs-3"><span>Postmodern Urbanism</span></div>
+      <div class="book-info">
+        <div class="book-name">Postmodern Urbanism</div>
+        <div class="book-press">Princeton Architectural Press</div>
+      </div>
+    </div>
+    <div class="book">
+      <div class="book-spine bs-4"><span>Good Urbanism</span></div>
+      <div class="book-info">
+        <div class="book-name">Good Urbanism</div>
+        <div class="book-press">Island Press</div>
+      </div>
+    </div>
+    <div class="book">
+      <div class="book-spine bs-5"><span>Urban Design: A Typology</span></div>
+      <div class="book-info">
+        <div class="book-name">Urban Design: A Typology</div>
+        <div class="book-press">Routledge</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section" id="articles">
+  <div class="section-head">
+    <div>
+      <div class="section-num">02 · Scholarship</div>
+      <div class="section-title">Articles & Essays</div>
+    </div>
+  </div>
+  <div class="filter-row">
+    <button class="fbtn on" onclick="filter('all',this)">All</button>
+    <button class="fbtn" onclick="filter('urbanism',this)">Urbanism</button>
+    <button class="fbtn" onclick="filter('health',this)">Health</button>
+    <button class="fbtn" onclick="filter('planning',this)">Planning</button>
+    <button class="fbtn" onclick="filter('theory',this)">Theory</button>
+  </div>
+  <table class="art-table" id="art-table"></table>
+</section>
+
+<div class="divider"></div>
+
+<section class="section" id="about">
+  <div class="section-head">
+    <div>
+      <div class="section-num">03 · Biography</div>
+      <div class="section-title">About Nan Ellin</div>
+    </div>
+  </div>
+  <div class="about-layout">
+    <div class="about-bio">
+      <p>Nan Ellin is Dean Emeritus and Professor of Urban Design at the University of Colorado Denver's College of Architecture and Planning. She holds a Ph.D. in Urban Design from Columbia University and a B.A. in Anthropology and Hispanic Studies from Bryn Mawr College.</p>
+      <p>Her research and practice center on how cities can be designed to foster human flourishing—drawing together urban theory, ecology, public health, and social equity. She co-directs the Design/HEALth initiative and serves on the Denver Design Advisory Board.</p>
+      <p>As Dean she guided CU Denver's College of Architecture and Planning through a transformative period, championing interdisciplinary research and design's role in shaping equitable communities across Colorado and the American West.</p>
+    </div>
+    <div class="about-divider"></div>
+    <div class="positions">
+      <div class="pos">
+        <div class="pos-yr">2025 –</div>
+        <div><div class="pos-role">Dean Emeritus & Professor of Urban Design</div><div class="pos-org">University of Colorado Denver</div></div>
+      </div>
+      <div class="pos">
+        <div class="pos-yr">2025 –</div>
+        <div><div class="pos-role">Co-Director, Design/HEALth</div><div class="pos-org">Colorado</div></div>
+      </div>
+      <div class="pos">
+        <div class="pos-yr">2017 – 2023</div>
+        <div><div class="pos-role">Dean, College of Architecture and Planning</div><div class="pos-org">University of Colorado Denver</div></div>
+      </div>
+      <div class="pos">
+        <div class="pos-yr">2015 – 2017</div>
+        <div><div class="pos-role">Dean, CAPPA</div><div class="pos-org">University of Texas at Arlington</div></div>
+      </div>
+      <div class="pos">
+        <div class="pos-yr">2010 – 2014</div>
+        <div><div class="pos-role">Department Chair, Urban Planning</div><div class="pos-org">University of Utah</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="contact-band" id="contact">
+  <div class="contact-headline">Let's build<br>better <em>cities</em><br>together.</div>
+  <div class="contact-details">
+    <div class="contact-row">
+      <div class="contact-icon">✉</div>
+      <div class="contact-text"><a href="mailto:Nan.Ellin@ucdenver.edu">Nan.Ellin@ucdenver.edu</a></div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-icon">🏛</div>
+      <div class="contact-text">University of Colorado Denver<br>College of Architecture and Planning</div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-icon">in</div>
+      <div class="contact-text"><a href="#">LinkedIn Profile</a></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 Nan Ellin</span>
+  <span>University of Colorado Denver</span>
+</footer>
+
+<div class="demo">Demo Prototype</div>
+
+<script>
+const arts=[
+  {year:"2024",title:"Design for Human Flourishing in Post-Pandemic Cities",journal:"Journal of Urban Design",cat:"health"},
+  {year:"2023",title:"Integral Urbanism Revisited: Two Decades Later",journal:"Urban Studies",cat:"urbanism"},
+  {year:"2022",title:"Health, Equity and the Built Environment",journal:"Planning Theory & Practice",cat:"health"},
+  {year:"2021",title:"Resilient Cities and the Role of Urban Designers",journal:"Urban Design International",cat:"planning"},
+  {year:"2020",title:"Towards a Theory of the Good City",journal:"Journal of Planning Education",cat:"theory"},
+  {year:"2019",title:"Connective Tissue: Design Strategies for Urban Cohesion",journal:"Places Journal",cat:"urbanism"},
+  {year:"2018",title:"The Planner as Integrator: Rethinking Professional Roles",journal:"JAPA",cat:"planning"},
+  {year:"2017",title:"Fear, Safety and Urban Form",journal:"Architecture & Culture",cat:"theory"},
+  {year:"2015",title:"Integral Urbanism: Creating Space for Emergence",journal:"Landscape & Urban Planning",cat:"urbanism"},
+];
+const labels={urbanism:"Urbanism",health:"Health",planning:"Planning",theory:"Theory"};
+function render(f){
+  const t=document.getElementById('art-table');
+  const rows=(f==='all'?arts:arts.filter(a=>a.cat===f));
+  t.innerHTML=rows.map(a=>`<tr>
+    <td class="td-yr">${a.year}</td>
+    <td><div class="td-title">${a.title}</div><div class="td-journal">${a.journal}</div></td>
+    <td class="td-cat"><span class="cat-pill">${labels[a.cat]}</span></td>
+  </tr>`).join('');
+}
+function filter(cat,btn){
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  render(cat);
+}
+render('all');
+
+// scroll reveal
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='none'}
+}),{threshold:0.08});
+document.querySelectorAll('.book,.pos,.section-head').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(12px)';
+  el.style.transition='opacity 0.6s ease, transform 0.6s ease';
+  io.observe(el);
+});
+</script>
+</body>
+</html>
